@@ -138,14 +138,16 @@ if stock_symbol:
     prediction, future_dates, processed_data = predict_stock(stock_symbol)
 
     if prediction is not None and future_dates is not None:
-        latest_price = processed_data['Close'].iloc[-1]
+        latest_price = processed_data['Close'].iloc[-1]  # Get the latest stock price
         
-        # Display the latest stock price in large green text
+        # Display latest stock price in green
         st.markdown(f"<h2 style='color: green; text-align: center;'>Latest Price: ${latest_price:.2f}</h2>", unsafe_allow_html=True)
 
         st.write(f"📊 **Predicted Prices for {stock_symbol}:**")
 
-        # Display the predicted prices in red
+        # Display predicted prices in red
         for date, pred in zip(future_dates, prediction):
             predicted_price = latest_price * (1 + pred / 100)
-            st.markdown(f"<h3 style='color: red;'>
+            st.markdown(f"<h3 style='color: red;'>📅 {date.date()}: **${predicted_price:.2f}** ({pred:.2f}%)</h3>", unsafe_allow_html=True)
+
+     
