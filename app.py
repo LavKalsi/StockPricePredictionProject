@@ -125,7 +125,7 @@ def plot_stock_data(processed_data, future_dates, predictions):
     st.plotly_chart(fig)
 
 # Streamlit UI
-st.title("📈 Stock Price Prediction (Next 5 Days)")
+st.title("Stock Price Prediction (Next 5 Days)")
 
 all_stocks = get_all_stock_tickers()
 
@@ -138,16 +138,10 @@ if stock_symbol:
     prediction, future_dates, processed_data = predict_stock(stock_symbol)
 
     if prediction is not None and future_dates is not None:
-        latest_price = processed_data['Close'].iloc[-1]  # Get the latest stock price
-        
-        # Display latest stock price in green
-        st.markdown(f"<h2 style='color: green; text-align: center;'>Latest Price: ${latest_price:.2f}</h2>", unsafe_allow_html=True)
-
-        st.write(f"📊 **Predicted Prices for {stock_symbol}:**")
-
-        # Display predicted prices in red
+        st.write(f"Prediction for {stock_symbol}:")
         for date, pred in zip(future_dates, prediction):
-            predicted_price = latest_price * (1 + pred / 100)
-            st.markdown(f"<h3 style='color: red;'>📅 {date.date()}: **${predicted_price:.2f}** ({pred:.2f}%)</h3>", unsafe_allow_html=True)
+            st.write(f"On {date.date()}: **{pred:.2f}%** change in stock price.")
 
-     
+        plot_stock_data(processed_data, future_dates, prediction)
+    else:
+        st.write("Not enough data to make a prediction.")
